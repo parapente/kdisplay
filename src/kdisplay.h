@@ -21,14 +21,7 @@
 #define KDISPLAY_H
 
 
-#include <KXmlGuiWindow>
-
-#include "ui_prefs_base.h"
-
-class kdisplayView;
-class QPrinter;
-class KToggleAction;
-class KUrl;
+#include <KDialog>
 
 /**
  * This class serves as the main window for kdisplay.  It handles the
@@ -38,7 +31,7 @@ class KUrl;
  * @author %{AUTHOR} <%{EMAIL}>
  * @version %{VERSION}
  */
-class kdisplay : public KXmlGuiWindow
+class kdisplay : public KDialog
 {
     Q_OBJECT
 public:
@@ -52,20 +45,8 @@ public:
      */
     virtual ~kdisplay();
 
-private slots:
-    void fileNew();
-    void optionsPreferences();
-
 private:
-    void setupActions();
-
-private:
-    Ui::prefs_base ui_prefs_base ;
-    kdisplayView *m_view;
-
-    QPrinter   *m_printer;
-    KToggleAction *m_toolbarAction;
-    KToggleAction *m_statusbarAction;
+    QWidget *m_view;
 };
 
 #endif // _KDISPLAY_H_

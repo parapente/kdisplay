@@ -43,12 +43,6 @@ int main(int argc, char **argv)
     kdisplay *widget = new kdisplay;
 
     // see if we are starting with session management
-    if (app.isSessionRestored())
-    {
-        RESTORE(kdisplay);
-    }
-    else
-    {
         // no session.. just start up normally
         KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
         if (args->count() == 0)
@@ -66,7 +60,6 @@ int main(int argc, char **argv)
             }
         }
         args->clear();
-    }
 
     return app.exec();
 }
