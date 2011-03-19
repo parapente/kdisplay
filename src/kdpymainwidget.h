@@ -26,6 +26,11 @@
 #include <QVBoxLayout>
 #include <QSplitter>
 
+namespace EasyRandR {
+class Configuration;
+class Output;
+}
+
 
 class kdpyMainWidget : public QWidget
 {
@@ -39,6 +44,10 @@ private:
     QGraphicsView *view;
     KTabWidget *tabwidget;
     QSplitter *splitter;
+    
+    EasyRandR::Configuration *randrcfg;
+    int randrscreens;
+    QList<EasyRandR::Output*> randrouts;
 };
 
 #endif // MAINWIDGET_H

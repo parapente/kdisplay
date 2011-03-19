@@ -18,9 +18,38 @@
 
 
 #include "kdpyoutputwidget.h"
+#include <easyrandr/output.h>
+#include <QStandardItemModel>
 
 kdpyOutputWidget::kdpyOutputWidget(QWidget* parent, Qt::WindowFlags f): QWidget(parent, f)
 {
     setupUi(this);
 }
 
+void kdpyOutputWidget::setOutput(EasyRandR::Output* out)
+{
+    blockSignals(true);
+    output = out;
+    if (out) {
+	QMap<RRMode,QString> modes;
+	QMapIterator<RRMode,QString> modeIter(modes);
+	RRMode curMode;
+	QStandardItemModel *model = new QStandardItemModel();
+	model->setColumnCount(2);
+	modes = output->validModes();
+	int row = 0;
+	while (modeIter.hasNext()) {
+	    modeIter.next();
+	    model->setItem(row,0,new QStandardItem(QString::number(modeIter.key())));
+	    model->setItem(row,1,new QStandardItem(modeIter.value()));
+	    row++;
+	}
+	
+	sizeCombo->setModel(model);
+	posxNumInput->setValue(output->x());
+	posyNumInput->setValue(output->y());
+    }
+    blockSignals(false);
+}
+
+#include "kdpyoutputwidget.moc"

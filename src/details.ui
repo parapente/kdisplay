@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>376</width>
+    <width>517</width>
     <height>216</height>
    </rect>
   </property>
@@ -40,7 +40,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="KComboBox" name="RateCombo"/>
+      <widget class="KComboBox" name="rateCombo"/>
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="OrientationLabel">
@@ -50,7 +50,7 @@
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="KComboBox" name="OrientationCombo"/>
+      <widget class="KComboBox" name="orientationCombo"/>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="ReflectionLabel">
@@ -60,7 +60,7 @@
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="KComboBox" name="ReflectionCombo"/>
+      <widget class="KComboBox" name="reflectionCombo"/>
      </item>
      <item row="4" column="0">
       <widget class="QLabel" name="PositionLabel">
@@ -72,16 +72,16 @@
      <item row="4" column="1">
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
-        <widget class="KComboBox" name="kcombobox_4"/>
+        <widget class="KComboBox" name="posCombo1"/>
        </item>
        <item row="0" column="1">
-        <widget class="KComboBox" name="kcombobox_5"/>
+        <widget class="KComboBox" name="posCombo2"/>
        </item>
        <item row="1" column="0">
-        <widget class="KIntNumInput" name="kintnuminput"/>
+        <widget class="KIntNumInput" name="posxNumInput"/>
        </item>
        <item row="1" column="1">
-        <widget class="KIntNumInput" name="kintnuminput_2"/>
+        <widget class="KIntNumInput" name="posyNumInput"/>
        </item>
       </layout>
      </item>

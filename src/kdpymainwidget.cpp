@@ -18,14 +18,31 @@
 
 
 #include "kdpymainwidget.h"
+#include "kdpyoutputwidget.h"
+#include <KDebug>
+#include <easyrandr/configuration.h>
 
 kdpyMainWidget::kdpyMainWidget(QWidget* parent, Qt::WindowFlags f): QWidget(parent, f)
 {
     mainlayout = new QVBoxLayout(this);
     view = new QGraphicsView(this);
     view->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    
     tabwidget = new KTabWidget(this);
     tabwidget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Minimum);
+    randrcfg  = new EasyRandR::Configuration();
+    randrscreens = randrcfg->getScreenCount();
+    kDebug() << "Screens:" << randrscreens;
+    for (int i=0; i<randrscreens; i++)
+	randrouts.append(randrcfg->getOutputList(i));
+    
+    kdpyOutputWidget *out;
+    for (int i=0; i<randrouts.count(); i++) {
+	out = new kdpyOutputWidget(tabwidget);
+	out->setOutput(randrouts.at(i));
+	tabwidget->addTab(out,randrouts.at(i)->name());
+    }
+
     splitter = new QSplitter(Qt::Vertical);
     splitter->addWidget(view);
     splitter->addWidget(tabwidget);

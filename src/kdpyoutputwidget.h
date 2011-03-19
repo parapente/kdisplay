@@ -20,8 +20,12 @@
 #ifndef KDPYOUTPUTWIDGET_H
 #define KDPYOUTPUTWIDGET_H
 
+#include "ui_details.h"
 #include <QWidget>
-#include <ui_details.h>
+
+namespace EasyRandR {
+class Output;
+}
 
 class kdpyOutputWidget : public QWidget, private Ui::details
 {
@@ -29,6 +33,10 @@ class kdpyOutputWidget : public QWidget, private Ui::details
 
 public:
     explicit kdpyOutputWidget(QWidget* parent = 0, Qt::WindowFlags f = 0);
+    void setOutput(EasyRandR::Output* out);
+    
+private:
+    EasyRandR::Output *output;
 };
 
 #endif // KDPYOUTPUTWIDGET_H
