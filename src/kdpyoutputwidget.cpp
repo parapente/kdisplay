@@ -28,16 +28,20 @@ kdpyOutputWidget::kdpyOutputWidget(QWidget* parent, Qt::WindowFlags f): QWidget(
 
 void kdpyOutputWidget::setOutput(EasyRandR::Output* out)
 {
-    blockSignals(true);
     output = out;
-    if (out) {
+    populateWidgets();
+}
+
+void kdpyOutputWidget::populateWidgets(void )
+{
+    blockSignals(true);
+    if (output) {
 	QMap<RRMode,QString> modes;
-	QMapIterator<RRMode,QString> modeIter(modes);
 	RRMode curMode;
-	QStandardItemModel *model = new QStandardItemModel();
-	model->setColumnCount(2);
 	modes = output->validModes();
+	QStandardItemModel *model = new QStandardItemModel(modes.count(),2);
 	int row = 0;
+	QMapIterator<RRMode,QString> modeIter(modes);
 	while (modeIter.hasNext()) {
 	    modeIter.next();
 	    model->setItem(row,0,new QStandardItem(QString::number(modeIter.key())));
@@ -46,10 +50,12 @@ void kdpyOutputWidget::setOutput(EasyRandR::Output* out)
 	}
 	
 	sizeCombo->setModel(model);
+	sizeCombo->setModelColumn(1);
 	posxNumInput->setValue(output->x());
 	posyNumInput->setValue(output->y());
     }
     blockSignals(false);
 }
+
 
 #include "kdpyoutputwidget.moc"

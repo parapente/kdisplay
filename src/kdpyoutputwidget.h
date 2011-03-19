@@ -36,6 +36,7 @@ public:
     void setOutput(EasyRandR::Output* out);
     
 private:
+    void populateWidgets(void);
     EasyRandR::Output *output;
 };
 
