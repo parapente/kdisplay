@@ -36,9 +36,11 @@ void kdpyOutputWidget::populateWidgets(void )
 {
     blockSignals(true);
     if (output) {
+	// Setup Size Combobox
 	QMap<RRMode,QString> modes;
 	RRMode curMode;
 	modes = output->validModes();
+	curMode = output->currentMode();
 	QStandardItemModel *model = new QStandardItemModel(modes.count(),2);
 	int row = 0;
 	QMapIterator<RRMode,QString> modeIter(modes);
@@ -51,6 +53,35 @@ void kdpyOutputWidget::populateWidgets(void )
 	
 	sizeCombo->setModel(model);
 	sizeCombo->setModelColumn(1);
+	sizeCombo->setCurrentItem(modes.value(curMode));
+	
+	// Setup Orientation Combobox
+	Rotation rot = output->validRotations();
+	Rotation currot = output->currentRotation();
+	Rotation rotmask = RR_Rotate_0 | RR_Rotate_90 | RR_Rotate_180 | RR_Rotate_270;
+	
+	if (rot & RR_Rotate_0)
+	    orientationCombo->addItem("Normal", RR_Rotate_0);
+	if (rot & RR_Rotate_90)
+	    orientationCombo->addItem("Left", RR_Rotate_90);
+	if (rot & RR_Rotate_180)
+	    orientationCombo->addItem("Inverted", RR_Rotate_180);
+	if (rot & RR_Rotate_270)
+	    orientationCombo->addItem("Right", RR_Rotate_270);
+	orientationCombo->setCurrentIndex(orientationCombo->findData(currot & rotmask));
+	
+	
+	// Setup Reflection Combobox
+	Rotation refmask = RR_Reflect_X | RR_Reflect_Y;
+	
+	reflectionCombo->addItem("None", 0);
+	if (rot & RR_Reflect_X)
+	    reflectionCombo->addItem("X-axis", RR_Reflect_X);
+	if (rot & RR_Reflect_Y)
+	    reflectionCombo->addItem("Y-axis", RR_Reflect_Y);
+	reflectionCombo->setCurrentIndex(reflectionCombo->findData(currot & refmask));
+	
+	// Setup Number Inputs
 	posxNumInput->setValue(output->x());
 	posyNumInput->setValue(output->y());
     }
