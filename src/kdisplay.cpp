@@ -26,8 +26,10 @@ kdisplay::kdisplay()
 {
     // accept dnd
     setAcceptDrops(true);
-
+    setButtons(KDialog::Ok | KDialog::Cancel | KDialog::Apply);
+    enableButtonApply(false);
     setMainWidget(m_view);
+    connect( m_view, SIGNAL( configChanged( bool ) ), this, SLOT( enableButtonApply( bool ) ) );
 }
 
 kdisplay::~kdisplay()
