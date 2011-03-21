@@ -34,11 +34,18 @@ class Output;
 
 class kdpyMainWidget : public QWidget
 {
-
+    Q_OBJECT
+    
 public:
     explicit kdpyMainWidget(QWidget* parent = 0, Qt::WindowFlags f = 0);
     virtual ~kdpyMainWidget();
 
+private slots:
+    void outputChanged(void);
+    
+signals:
+    void configChanged(bool);
+    
 private:
     QVBoxLayout *mainlayout;
     QGraphicsView *view;
@@ -48,6 +55,8 @@ private:
     EasyRandR::Configuration *randrcfg;
     int randrscreens;
     QList<EasyRandR::Output*> randrouts;
+    
+    bool changed;
 };
 
 #endif // MAINWIDGET_H

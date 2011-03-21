@@ -41,6 +41,8 @@ kdpyMainWidget::kdpyMainWidget(QWidget* parent, Qt::WindowFlags f): QWidget(pare
 	out = new kdpyOutputWidget(tabwidget);
 	out->setOutput(randrouts.at(i));
 	tabwidget->addTab(out,randrouts.at(i)->name());
+	
+	connect(out,SIGNAL(outputChanged()),this, SLOT(outputChanged()));
     }
 
     splitter = new QSplitter(Qt::Vertical);
@@ -49,6 +51,8 @@ kdpyMainWidget::kdpyMainWidget(QWidget* parent, Qt::WindowFlags f): QWidget(pare
     
     mainlayout->addWidget(splitter);
     this->setLayout(mainlayout);
+    
+    changed = false; // Keeps if the configuration has changed
 }
 
 kdpyMainWidget::~kdpyMainWidget()
@@ -58,3 +62,8 @@ kdpyMainWidget::~kdpyMainWidget()
     delete mainlayout;
 }
 
+void kdpyMainWidget::outputChanged(void )
+{
+    changed = true;
+    emit configChanged(true);
+}

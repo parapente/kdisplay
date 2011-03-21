@@ -24,6 +24,10 @@
 kdpyOutputWidget::kdpyOutputWidget(QWidget* parent, Qt::WindowFlags f): QWidget(parent, f)
 {
     setupUi(this);
+    connect(sizeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(changed()));
+    connect(orientationCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(changed()));
+    connect(reflectionCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(changed()));
+    connect(posxNumInput,SIGNAL(valueChanged(int)),this,SLOT(changed()));
 }
 
 void kdpyOutputWidget::setOutput(EasyRandR::Output* out)
@@ -88,5 +92,9 @@ void kdpyOutputWidget::populateWidgets(void )
     blockSignals(false);
 }
 
+void kdpyOutputWidget::changed(void )
+{
+    emit outputChanged();
+}
 
 #include "kdpyoutputwidget.moc"
