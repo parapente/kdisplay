@@ -30,6 +30,7 @@ kdisplay::kdisplay()
     enableButtonApply(false);
     setMainWidget(m_view);
     connect( m_view, SIGNAL( configChanged( bool ) ), this, SLOT( enableButtonApply( bool ) ) );
+    connect( this, SIGNAL(applyClicked()), m_view, SLOT(applyConfig()));
 }
 
 kdisplay::~kdisplay()

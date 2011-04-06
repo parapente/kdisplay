@@ -67,3 +67,8 @@ void kdpyMainWidget::outputChanged(void )
     changed = true;
     emit configChanged(true);
 }
+
+void kdpyMainWidget::applyConfig(void )
+{
+    emit applyConfigRequested();
+}

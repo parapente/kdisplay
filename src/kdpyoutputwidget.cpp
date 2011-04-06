@@ -97,4 +97,10 @@ void kdpyOutputWidget::changed(void )
     emit outputChanged();
 }
 
+bool kdpyOutputWidget::applyOutputConfig(void )
+{
+    // TODO: Check return value
+    output->applySettings();
+}
+
 #include "kdpyoutputwidget.moc"

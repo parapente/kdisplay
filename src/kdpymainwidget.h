@@ -40,11 +40,15 @@ public:
     explicit kdpyMainWidget(QWidget* parent = 0, Qt::WindowFlags f = 0);
     virtual ~kdpyMainWidget();
 
+public slots:
+    void applyConfig(void);
+
 private slots:
     void outputChanged(void);
     
 signals:
     void configChanged(bool);
+    void applyConfigRequested(void);
     
 private:
     QVBoxLayout *mainlayout;

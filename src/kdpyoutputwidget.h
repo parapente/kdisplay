@@ -34,7 +34,10 @@ class kdpyOutputWidget : public QWidget, private Ui::details
 public:
     explicit kdpyOutputWidget(QWidget* parent = 0, Qt::WindowFlags f = 0);
     void setOutput(EasyRandR::Output* out);
-    
+
+public slots:
+    void applyOutputConfig(void);
+
 signals:
     void outputChanged(void);
     
