@@ -43,6 +43,8 @@ kdpyMainWidget::kdpyMainWidget(QWidget* parent, Qt::WindowFlags f): QWidget(pare
 	tabwidget->addTab(out,randrouts.at(i)->name());
 	
 	connect(out,SIGNAL(outputChanged()),this, SLOT(outputChanged()));
+	// Avoid using signals for applying configuration
+	//connect(this,SIGNAL(applyConfigRequested()), out, SLOT(applyOutputConfig()));
     }
 
     splitter = new QSplitter(Qt::Vertical);
@@ -70,5 +72,6 @@ void kdpyMainWidget::outputChanged(void )
 
 void kdpyMainWidget::applyConfig(void )
 {
+    randrcfg->applyConfiguration();
     emit applyConfigRequested();
 }
