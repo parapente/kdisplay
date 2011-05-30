@@ -68,10 +68,18 @@
         <widget class="KComboBox" name="posCombo2"/>
        </item>
        <item row="1" column="0">
-        <widget class="KIntNumInput" name="posxNumInput"/>
+        <widget class="KIntNumInput" name="posxNumInput">
+         <property name="minimum">
+          <number>0</number>
+         </property>
+        </widget>
        </item>
        <item row="1" column="1">
-        <widget class="KIntNumInput" name="posyNumInput"/>
+        <widget class="KIntNumInput" name="posyNumInput">
+         <property name="minimum">
+          <number>0</number>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
