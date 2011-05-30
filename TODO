@@ -1,0 +1,2 @@
+* Handle screen resize according to output sizes
+* Create QGraphicsItems for every screen and output
