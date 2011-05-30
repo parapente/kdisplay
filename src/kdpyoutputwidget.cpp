@@ -24,10 +24,13 @@
 kdpyOutputWidget::kdpyOutputWidget(QWidget* parent, Qt::WindowFlags f): QWidget(parent, f)
 {
     setupUi(this);
-    connect(sizeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(changed()));
+    connect(sizeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(sizeChanged(int)));
     connect(orientationCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(changed()));
     connect(reflectionCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(changed()));
     connect(posxNumInput,SIGNAL(valueChanged(int)),this,SLOT(changed()));
+    connect(posyNumInput,SIGNAL(valueChanged(int)),this,SLOT(changed()));
+    
+    smtChanged = false;
 }
 
 void kdpyOutputWidget::setOutput(EasyRandR::Output* out)
@@ -55,9 +58,11 @@ void kdpyOutputWidget::populateWidgets(void )
 	    row++;
 	}
 	
+	sizeCombo->blockSignals(true);
 	sizeCombo->setModel(model);
 	sizeCombo->setModelColumn(1);
 	sizeCombo->setCurrentItem(modes.value(curMode));
+	sizeCombo->blockSignals(false);
 	
 	// Setup Orientation Combobox
 	Rotation rot = output->validRotations();
@@ -92,15 +97,33 @@ void kdpyOutputWidget::populateWidgets(void )
     blockSignals(false);
 }
 
+void kdpyOutputWidget::sizeChanged(int s)
+{
+    QStandardItemModel *m;
+    RRMode modeId;
+    
+    m = (QStandardItemModel *) sizeCombo->model();
+    modeId = m->item(s)->text().toInt();
+    output->setMode(modeId);
+    changed();
+}
+
 void kdpyOutputWidget::changed(void )
 {
     emit outputChanged();
+    smtChanged = true;
 }
 
 bool kdpyOutputWidget::applyOutputConfig(void )
 {
+    // TODO: Get changes from combos
     // TODO: Check return value
-    output->applySettings();
+    if (smtChanged)
+	output->applySettings();
+    
+    smtChanged = false;
+    
+    return true; // Return true for now
 }
 
 #include "kdpyoutputwidget.moc"

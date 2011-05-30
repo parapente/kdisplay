@@ -36,7 +36,8 @@ public:
     void setOutput(EasyRandR::Output* out);
 
 public slots:
-    void applyOutputConfig(void);
+    bool applyOutputConfig(void);
+    void sizeChanged(int);
 
 signals:
     void outputChanged(void);
@@ -47,6 +48,7 @@ private slots:
 private:
     void populateWidgets(void);
     EasyRandR::Output *output;
+    bool smtChanged;
 };
 
 #endif // KDPYOUTPUTWIDGET_H
