@@ -38,6 +38,9 @@ public:
 public slots:
     bool applyOutputConfig(void);
     void sizeChanged(int);
+    void posChanged(void);
+    void orientationChanged(int);
+    void reflectionChanged(int);
 
 signals:
     void outputChanged(void);

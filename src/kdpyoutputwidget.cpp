@@ -25,10 +25,10 @@ kdpyOutputWidget::kdpyOutputWidget(QWidget* parent, Qt::WindowFlags f): QWidget(
 {
     setupUi(this);
     connect(sizeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(sizeChanged(int)));
-    connect(orientationCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(changed()));
-    connect(reflectionCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(changed()));
-    connect(posxNumInput,SIGNAL(valueChanged(int)),this,SLOT(changed()));
-    connect(posyNumInput,SIGNAL(valueChanged(int)),this,SLOT(changed()));
+    connect(orientationCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(orientationChanged(int)));
+    connect(reflectionCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(reflectionChanged(int)));
+    connect(posxNumInput,SIGNAL(valueChanged(int)),this,SLOT(posChanged()));
+    connect(posyNumInput,SIGNAL(valueChanged(int)),this,SLOT(posChanged()));
     
     smtChanged = false;
 }
@@ -103,8 +103,37 @@ void kdpyOutputWidget::sizeChanged(int s)
     RRMode modeId;
     
     m = (QStandardItemModel *) sizeCombo->model();
-    modeId = m->item(s)->text().toInt();
+    modeId = m->item(s)->text().toUInt();
     output->setMode(modeId);
+    changed();
+}
+
+void kdpyOutputWidget::posChanged(void)
+{
+    int x,y;
+    
+    x = posxNumInput->value();
+    y = posyNumInput->value();
+    
+    output->setPos(x,y);
+    changed();
+}
+
+void kdpyOutputWidget::orientationChanged(int index)
+{
+    Rotation rotation = output->currentRotation();
+    Rotation reflection = (RR_Reflect_X | RR_Reflect_Y) & rotation;
+    Rotation newRotation = orientationCombo->itemData(index).toUInt() | reflection;
+    output->setRotation(newRotation);
+    changed();
+}
+
+void kdpyOutputWidget::reflectionChanged(int index)
+{
+    Rotation rotation = output->currentRotation();
+    Rotation rotationOnly = (RR_Rotate_0 | RR_Rotate_90 | RR_Rotate_180 | RR_Rotate_270) & rotation;
+    Rotation newReflection = reflectionCombo->itemData(index).toUInt() | rotationOnly;
+    output->setRotation(newReflection);
     changed();
 }
 
