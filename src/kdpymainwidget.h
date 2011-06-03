@@ -53,6 +53,7 @@ signals:
 private:
     QVBoxLayout *mainlayout;
     QGraphicsView *view;
+    QGraphicsScene *m_scene;
     KTabWidget *tabwidget;
     QSplitter *splitter;
     

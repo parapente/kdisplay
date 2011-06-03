@@ -19,13 +19,15 @@
 
 #include "kdpymainwidget.h"
 #include "kdpyoutputwidget.h"
+#include "kdpyoutputgraphicsgroup.h"
 #include <KDebug>
 #include <easyrandr/configuration.h>
 
 kdpyMainWidget::kdpyMainWidget(QWidget* parent, Qt::WindowFlags f): QWidget(parent, f)
 {
     mainlayout = new QVBoxLayout(this);
-    view = new QGraphicsView(this);
+    m_scene = new QGraphicsScene(this);
+    view = new QGraphicsView(m_scene,this);
     view->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     
     tabwidget = new KTabWidget(this);
@@ -37,10 +39,17 @@ kdpyMainWidget::kdpyMainWidget(QWidget* parent, Qt::WindowFlags f): QWidget(pare
 	randrouts.append(randrcfg->getOutputList(i));
     
     kdpyOutputWidget *out;
+    kdpyOutputGraphicsGroup *group;
     for (int i=0; i<randrouts.count(); i++) {
+	// Create new tabWidget for output
 	out = new kdpyOutputWidget(tabwidget);
-	out->setOutput(randrouts.at(i));
 	tabwidget->addTab(out,randrouts.at(i)->name());
+
+	// Add a GraphicsGroup to the output widget
+	group = new kdpyOutputGraphicsGroup();
+	m_scene->addItem(group);
+	out->setOutput(randrouts.at(i));
+	out->setGraphicsItemGroup(group);
 	
 	connect(out,SIGNAL(outputChanged()),this, SLOT(outputChanged()));
 	// Avoid using signals for applying configuration
