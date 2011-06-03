@@ -1,4 +1,5 @@
 set(kdisplay_SRCS
+   kdpyoutputgraphicsgroup.cpp
    kdpyoutputwidget.cpp
    kdpymainwidget.cpp
    kdisplay.cpp
