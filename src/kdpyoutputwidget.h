@@ -22,6 +22,7 @@
 
 #include "ui_details.h"
 #include <QWidget>
+#include "kdpyoutputgraphicsgroup.h"
 
 namespace EasyRandR {
 class Output;
@@ -41,6 +42,7 @@ public slots:
     void posChanged(void);
     void orientationChanged(int);
     void reflectionChanged(int);
+    void setGraphicsItemGroup(kdpyOutputGraphicsGroup*);
 
 signals:
     void outputChanged(void);
@@ -50,8 +52,10 @@ private slots:
     
 private:
     void populateWidgets(void);
+    void resetGraphicsGroup(void);
     EasyRandR::Output *output;
     bool smtChanged;
+    kdpyOutputGraphicsGroup *m_graphicsItemGroup;
 };
 
 #endif // KDPYOUTPUTWIDGET_H

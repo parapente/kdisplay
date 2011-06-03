@@ -31,6 +31,7 @@ kdpyOutputWidget::kdpyOutputWidget(QWidget* parent, Qt::WindowFlags f): QWidget(
     connect(posyNumInput,SIGNAL(valueChanged(int)),this,SLOT(posChanged()));
     
     smtChanged = false;
+    m_graphicsItemGroup = NULL;
 }
 
 void kdpyOutputWidget::setOutput(EasyRandR::Output* out)
@@ -69,6 +70,7 @@ void kdpyOutputWidget::populateWidgets(void )
 	Rotation currot = output->currentRotation();
 	Rotation rotmask = RR_Rotate_0 | RR_Rotate_90 | RR_Rotate_180 | RR_Rotate_270;
 	
+	orientationCombo->blockSignals(true);
 	if (rot & RR_Rotate_0)
 	    orientationCombo->addItem("Normal", RR_Rotate_0);
 	if (rot & RR_Rotate_90)
@@ -78,21 +80,28 @@ void kdpyOutputWidget::populateWidgets(void )
 	if (rot & RR_Rotate_270)
 	    orientationCombo->addItem("Right", RR_Rotate_270);
 	orientationCombo->setCurrentIndex(orientationCombo->findData(currot & rotmask));
+	orientationCombo->blockSignals(false);
 	
 	
 	// Setup Reflection Combobox
 	Rotation refmask = RR_Reflect_X | RR_Reflect_Y;
 	
+	reflectionCombo->blockSignals(true);
 	reflectionCombo->addItem("None", 0);
 	if (rot & RR_Reflect_X)
 	    reflectionCombo->addItem("X-axis", RR_Reflect_X);
 	if (rot & RR_Reflect_Y)
 	    reflectionCombo->addItem("Y-axis", RR_Reflect_Y);
 	reflectionCombo->setCurrentIndex(reflectionCombo->findData(currot & refmask));
+	reflectionCombo->blockSignals(false);
 	
 	// Setup Number Inputs
+	posxNumInput->blockSignals(true);
 	posxNumInput->setValue(output->x());
+	posxNumInput->blockSignals(false);
+	posyNumInput->blockSignals(true);
 	posyNumInput->setValue(output->y());
+	posxNumInput->blockSignals(false);
     }
     blockSignals(false);
 }
@@ -141,11 +150,11 @@ void kdpyOutputWidget::changed(void )
 {
     emit outputChanged();
     smtChanged = true;
+    resetGraphicsGroup();
 }
 
 bool kdpyOutputWidget::applyOutputConfig(void )
 {
-    // TODO: Get changes from combos
     // TODO: Check return value
     if (smtChanged)
 	output->applySettings();
@@ -153,6 +162,22 @@ bool kdpyOutputWidget::applyOutputConfig(void )
     smtChanged = false;
     
     return true; // Return true for now
+}
+
+void kdpyOutputWidget::setGraphicsItemGroup(kdpyOutputGraphicsGroup* graphicsItemGroup)
+{
+    m_graphicsItemGroup = graphicsItemGroup;
+    resetGraphicsGroup();
+}
+
+void kdpyOutputWidget::resetGraphicsGroup(void )
+{
+    if (output) {
+	m_graphicsItemGroup->setNameText(output->name());
+	m_graphicsItemGroup->setSizeText(sizeCombo->itemText(sizeCombo->currentIndex()));
+    }
+    else
+	m_graphicsItemGroup->setVisible(false);
 }
 
 #include "kdpyoutputwidget.moc"
