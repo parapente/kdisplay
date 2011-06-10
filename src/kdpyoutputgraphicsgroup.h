@@ -32,6 +32,7 @@ public:
     void setSizeText(QString size);
     
 private:
+    qreal fontSizeForRect(QString name, QRect r);
     QGraphicsRectItem *m_rect;
     QGraphicsTextItem *m_nameText;
     QGraphicsTextItem *m_sizeText;
