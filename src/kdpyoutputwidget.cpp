@@ -172,7 +172,7 @@ void kdpyOutputWidget::setGraphicsItemGroup(kdpyOutputGraphicsGroup* graphicsIte
 
 void kdpyOutputWidget::resetGraphicsGroup(void )
 {
-    if (output) {
+    if (output->connectionStatus() == RR_Connected) {
 	m_graphicsItemGroup->setNameText(output->name());
 	m_graphicsItemGroup->setSizeText(sizeCombo->itemText(sizeCombo->currentIndex()));
     }
