@@ -35,8 +35,7 @@ kdpyOutputGraphicsGroup::kdpyOutputGraphicsGroup(QGraphicsItem* parent): QGraphi
 void kdpyOutputGraphicsGroup::setRect(QRectF rect)
 {
     setPos(rect.x(),rect.y());
-    rect.setX(0);
-    rect.setY(0);
+    rect.moveTo(0,0);
     m_rect->setRect(rect);
     
     // Cause the size of the two labels to be recalculated
