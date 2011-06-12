@@ -30,6 +30,7 @@ public:
     void setRect(QRectF rect);
     void setNameText(QString name);
     void setSizeText(QString size);
+    void setRectFillColor(QColor color);
     
 private:
     qreal fontSizeForRect(QString name, QRect r);
