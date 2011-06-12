@@ -47,6 +47,7 @@ kdpyMainWidget::kdpyMainWidget(QWidget* parent, Qt::WindowFlags f): QWidget(pare
 
 	// Add a GraphicsGroup to the output widget
 	group = new kdpyOutputGraphicsGroup();
+	group->setRect(QRect(out->x(),out->y(),out->width(),out->height()));
 	m_scene->addItem(group);
 	out->setOutput(randrouts.at(i));
 	out->setGraphicsItemGroup(group);
