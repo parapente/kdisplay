@@ -27,7 +27,7 @@ kdpyMainWidget::kdpyMainWidget(QWidget* parent, Qt::WindowFlags f): QWidget(pare
 {
     mainlayout = new QVBoxLayout(this);
     m_scene = new QGraphicsScene(this);
-    view = new QGraphicsView(m_scene,this);
+    view = new kdpyGraphicsView(m_scene,this);
     view->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     
     tabwidget = new KTabWidget(this);
@@ -47,15 +47,20 @@ kdpyMainWidget::kdpyMainWidget(QWidget* parent, Qt::WindowFlags f): QWidget(pare
 
 	// Add a GraphicsGroup to the output widget
 	group = new kdpyOutputGraphicsGroup();
-	group->setRect(QRect(out->x(),out->y(),out->width(),out->height()));
+	group->setRect(QRect(randrouts.at(i)->x(), randrouts.at(i)->y(), randrouts.at(i)->width(), randrouts.at(i)->height()));
 	m_scene->addItem(group);
 	out->setOutput(randrouts.at(i));
 	out->setGraphicsItemGroup(group);
+	QColor col(Qt::yellow);
+	col.setAlpha(128);
+	group->setRectFillColor(col);
 	
 	connect(out,SIGNAL(outputChanged()),this, SLOT(outputChanged()));
+	connect(view, SIGNAL(viewResized()), this, SLOT(updateView()));
 	// Avoid using signals for applying configuration
 	//connect(this,SIGNAL(applyConfigRequested()), out, SLOT(applyOutputConfig()));
     }
+    updateView();
 
     splitter = new QSplitter(Qt::Vertical);
     splitter->addWidget(view);
@@ -84,4 +89,17 @@ void kdpyMainWidget::applyConfig(void )
 {
     randrcfg->applyConfiguration();
     emit applyConfigRequested();
+}
+
+void kdpyMainWidget::updateView(void )
+{
+    QRect sceneRect(0,0,0,0);
+    EasyRandR::Output *out;
+    
+    for (int i=0;i<randrouts.count();i++) {
+	out = randrouts.at(i);
+	QRect outRect(out->x(), out->y(), out->width(), out->height());
+	sceneRect = sceneRect.united(outRect);
+    }
+    view->fitInView(sceneRect, Qt::KeepAspectRatio);
 }

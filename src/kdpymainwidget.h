@@ -25,6 +25,7 @@
 #include <KTabWidget>
 #include <QVBoxLayout>
 #include <QSplitter>
+#include "kdpygraphicsview.h"
 
 namespace EasyRandR {
 class Configuration;
@@ -42,6 +43,7 @@ public:
 
 public slots:
     void applyConfig(void);
+    void updateView(void);
 
 private slots:
     void outputChanged(void);
@@ -52,7 +54,7 @@ signals:
     
 private:
     QVBoxLayout *mainlayout;
-    QGraphicsView *view;
+    kdpyGraphicsView *view;
     QGraphicsScene *m_scene;
     KTabWidget *tabwidget;
     QSplitter *splitter;
