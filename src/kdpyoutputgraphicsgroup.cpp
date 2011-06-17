@@ -71,11 +71,8 @@ qreal kdpyOutputGraphicsGroup::fontSizeForRect(QString name, QRect r)
 {
     QFont f(name, r.height());
     QFontMetrics fm(f);
-//     qreal cf = (fm.ascent()/(double)r.height())
-//                 + (fm.descent()/(double)r.height())
-//                 - (fm.descent()/(double)fm.height());
-//     return r.height()*cf;
     qreal hsize, vsize;
+
     hsize = (qreal)r.width()/(qreal)fm.width(name)*f.pointSizeF();
     vsize = (qreal)r.height()/(qreal)fm.height()*f.pointSizeF();
     if (hsize < vsize)
