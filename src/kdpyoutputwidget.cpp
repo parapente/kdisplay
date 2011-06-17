@@ -148,6 +148,13 @@ void kdpyOutputWidget::posChanged(void)
     y = posyNumInput->value();
     
     output->setPos(x,y);
+    
+    QRectF newRect;
+    
+    newRect = m_graphicsItemGroup->getRect();
+    newRect.setX(x);
+    newRect.setY(y);
+    m_graphicsItemGroup->setRect(newRect);
     changed();
 }
 
@@ -157,6 +164,27 @@ void kdpyOutputWidget::orientationChanged(int index)
     Rotation reflection = (RR_Reflect_X | RR_Reflect_Y) & rotation;
     Rotation newRotation = orientationCombo->itemData(index).toUInt() | reflection;
     output->setRotation(newRotation);
+
+    QRectF newRect;
+    QList<XRRModeInfo> modeList;
+    QStandardItemModel *m;
+    RRMode modeId;
+    
+    m = (QStandardItemModel *) sizeCombo->model();
+    modeId = m->item(sizeCombo->currentIndex())->text().toUInt();
+    modeList = output->screen()->getModes();
+    for (int i=0; i<modeList.count(); i++)
+	if (modeList.at(i).id == modeId) {
+	    if ((newRotation == RR_Rotate_0) || (newRotation == RR_Rotate_180)) {
+		newRect.setWidth(modeList.at(i).width);
+		newRect.setHeight(modeList.at(i).height);
+	    }
+	    else {
+		newRect.setWidth(modeList.at(i).height);
+		newRect.setHeight(modeList.at(i).width);
+	    }
+	}
+    m_graphicsItemGroup->setRect(newRect);
     changed();
 }
 
