@@ -31,6 +31,9 @@ public:
     void setNameText(QString name);
     void setSizeText(QString size);
     void setRectFillColor(QColor color);
+    QRectF getRect(void) const;
+    QString getNameText(void) const;
+    QString getSizeText(void) const;
     
 private:
     qreal fontSizeForRect(QString name, QRect r);

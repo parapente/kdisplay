@@ -84,3 +84,18 @@ void kdpyOutputGraphicsGroup::setRectFillColor(QColor color)
 {
     m_rect->setBrush(QBrush(color));
 }
+
+QString kdpyOutputGraphicsGroup::getNameText(void) const
+{
+    return m_nameText->toPlainText();
+}
+
+QString kdpyOutputGraphicsGroup::getSizeText(void) const
+{
+    return m_sizeText->toPlainText();
+}
+
+QRectF kdpyOutputGraphicsGroup::getRect(void) const
+{
+    return m_rect->rect();
+}
