@@ -102,6 +102,16 @@ void kdpyOutputWidget::populateWidgets(void )
 	posyNumInput->blockSignals(true);
 	posyNumInput->setValue(output->y());
 	posxNumInput->blockSignals(false);
+	
+	if (output->connectionStatus() == RR_Disconnected){
+	    posxNumInput->setEnabled(false);
+	    posyNumInput->setEnabled(false);
+	    reflectionCombo->setEnabled(false);
+	    orientationCombo->setEnabled(false);
+	    sizeCombo->setEnabled(false);
+	    posCombo1->setEnabled(false);
+	    posCombo2->setEnabled(false);
+	}
     }
     blockSignals(false);
 }
@@ -114,6 +124,19 @@ void kdpyOutputWidget::sizeChanged(int s)
     m = (QStandardItemModel *) sizeCombo->model();
     modeId = m->item(s)->text().toUInt();
     output->setMode(modeId);
+    
+    QList<XRRModeInfo> modeList;
+    QRectF newRect;
+    
+    modeList = output->screen()->getModes();
+    for (int i=0; i<modeList.count(); i++)
+	if (modeList.at(i).id == modeId) {
+	    newRect.setWidth(modeList.at(i).width);
+	    newRect.setHeight(modeList.at(i).height);
+	}
+	    
+    m_graphicsItemGroup->setSizeText(m->item(s)->text());
+    m_graphicsItemGroup->setRect(newRect);
     changed();
 }
 
