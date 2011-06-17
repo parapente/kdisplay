@@ -1,2 +1,9 @@
-* Handle screen resize according to output sizes
-* Create QGraphicsItems for every screen and output
+Major
+-----
+* Disable all controls when output is disconnected
+* Update QGraphicsScene when changing settings
+* Check for failure when applying settings and refresh QGraphicsScene
+
+Minor
+-----
+* Configure outputs using only your mouse on the QGraphicsView
